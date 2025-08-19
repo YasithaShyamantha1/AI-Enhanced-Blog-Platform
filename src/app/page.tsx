@@ -30,7 +30,7 @@ const dummyPosts: Post[] = [
     title: "AI-Powered SEO: The Future of Blog Optimization",
     summary: "How AI can suggest the perfect keywords and structure for your posts.",
     slug: "ai-seo-future",
-    coverImage: "/images/post3.jpg",
+    coverImage: "frontend\images\post1.png",
   },
 ];
 
