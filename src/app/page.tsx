@@ -16,7 +16,7 @@ const dummyPosts: Post[] = [
     title: "How AI is Changing Blogging Forever",
     summary: "Discover how AI-powered tools can help you write better and faster.",
     slug: "ai-changing-blogging",
-    coverImage: "/images/post1.jpg",
+    coverImage: "/images/post1.png",
   },
   {
     id: "2",
@@ -30,7 +30,7 @@ const dummyPosts: Post[] = [
     title: "AI-Powered SEO: The Future of Blog Optimization",
     summary: "How AI can suggest the perfect keywords and structure for your posts.",
     slug: "ai-seo-future",
-    coverImage: "frontend\images\post1.png",
+    coverImage: "/images/post3.png",
   },
 ];
 
@@ -53,8 +53,8 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          Harness the power of AI to generate summaries, titles, and SEO suggestions
-          for your blog posts. Say goodbye to writer’s block!
+          Harness the power of AI to generate summaries, titles, and SEO
+          suggestions for your blog posts. Say goodbye to writer’s block!
         </motion.p>
         <motion.button
           className="mt-8 px-8 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition"
@@ -67,7 +67,9 @@ export default function Home() {
 
       {/* Featured Posts */}
       <section className="py-20 px-6 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10 text-center">Featured Posts</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-10 text-center">
+          Featured Posts
+        </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {dummyPosts.map((post, index) => (
             <motion.div
@@ -85,9 +87,11 @@ export default function Home() {
                 />
               )}
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition mb-2">
+                  {post.title}
+                </h3>
                 <p className="text-gray-600 mb-4">{post.summary}</p>
-                <span className="text-indigo-500 font-semibold hover:underline">
+                <span className="text-indigo-600 font-semibold hover:underline">
                   Read More →
                 </span>
               </div>
