@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Call backend login API with email & password
+    // Later: Call backend login API with email & password
     console.log("Login:", { email, password });
   };
 
@@ -23,8 +23,8 @@ export default function LoginPage() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8"
       >
-        {/* Logo */}
-        <h1 className="text-2xl font-bold text-center mb-6">
+        {/* Logo / Heading */}
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
           AI-Enhanced Blog Platform
         </h1>
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full outline-none"
+                className="w-full bg-transparent outline-none text-gray-800"
                 required
               />
             </div>
@@ -56,7 +56,7 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full outline-none"
+                className="w-full bg-transparent outline-none text-gray-800"
                 required
               />
             </div>
