@@ -37,9 +37,9 @@ const BlogEditor = () => {
         className="w-full border border-gray-300 p-3 rounded-xl mb-4"
       />
 
-      <Button onClick={handlePublish} className="bg-blue-600 text-white hover:bg-blue-700">
+      {/* <Button onClick={handlePublish} className="bg-blue-600 text-white hover:bg-blue-700">
         Publish
-      </Button>
+      </Button> */}
     </motion.div>
   );
 };

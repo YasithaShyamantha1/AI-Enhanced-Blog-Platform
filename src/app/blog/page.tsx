@@ -31,7 +31,9 @@ const dummyPosts: Post[] = [
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
+      <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-900">
+        Our Blog
+      </h1>
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {dummyPosts.map((post) => (
           <motion.div
@@ -47,11 +49,15 @@ export default function BlogPage() {
               className="w-full h-48 object-cover"
             />
             <div className="p-5">
-              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-              <p className="text-gray-600 mb-4">{post.summary}</p>
+              <h2 className="text-xl font-bold mb-3 text-gray-900">
+                {post.title}
+              </h2>
+              <p className="text-gray-800 mb-4 leading-relaxed">
+                {post.summary}
+              </p>
               <Link
                 href={`/blog/${post.id}`}
-                className="text-blue-600 font-medium hover:underline"
+                className="text-blue-700 font-semibold hover:underline"
               >
                 Read more →
               </Link>
