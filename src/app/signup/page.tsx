@@ -8,9 +8,12 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
+    role: "reader", // default role
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -33,6 +36,7 @@ export default function Signup() {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Full Name
@@ -48,6 +52,7 @@ export default function Signup() {
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email Address
@@ -63,6 +68,7 @@ export default function Signup() {
             />
           </div>
 
+          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
@@ -78,6 +84,25 @@ export default function Signup() {
             />
           </div>
 
+          {/* Role */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Select Role
+            </label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            >
+              <option value="admin">Admin</option>
+              <option value="writer">Writer</option>
+              <option value="reader">Reader</option>
+            </select>
+          </div>
+
+          {/* Submit */}
           <motion.button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-indigo-700 transition"
