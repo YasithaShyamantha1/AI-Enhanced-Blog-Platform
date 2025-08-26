@@ -1,44 +1,57 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
-export default function Signup() {
+const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "reader", // default role
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Signup Data:", formData);
-    // TODO: send to backend
+
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Account created successfully!");
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 px-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <motion.div
-        className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8"
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="bg-white p-8 rounded-2xl shadow-lg w-96"
       >
-        <h2 className="text-3xl font-extrabold text-center text-black mb-6">
-          Create Your Account
+        <h2 className="text-2xl font-bold mb-6 text-center text-indigo-600">
+          Create an Account
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Full Name */}
           <div>
-            <label className="block text-sm font-medium text-black mb-1">
+            <label className="block text-sm font-medium text-gray-700">
               Full Name
             </label>
             <input
@@ -54,8 +67,8 @@ export default function Signup() {
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-black mb-1">
-              Email Address
+            <label className="block text-sm font-medium text-gray-700">
+              Email
             </label>
             <input
               type="email"
@@ -70,7 +83,7 @@ export default function Signup() {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-black mb-1">
+            <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
@@ -80,49 +93,23 @@ export default function Signup() {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-black"
-              placeholder="Create a password"
+              placeholder="Enter your password"
             />
           </div>
 
-          {/* Role */}
-          <div>
-            <label className="block text-sm font-medium text-black mb-1">
-              Select Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-black"
-            >
-              <option value="admin">Admin</option>
-              <option value="writer">Writer</option>
-              <option value="reader">Reader</option>
-            </select>
-          </div>
-
-          {/* Submit */}
+          {/* Submit Button */}
           <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-indigo-700 transition"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold shadow-md hover:bg-indigo-700 transition"
           >
             Sign Up
           </motion.button>
         </form>
-
-        <p className="mt-6 text-center text-sm text-black">
-          Already have an account?{" "}
-          <a
-            href="/login"
-            className="text-indigo-600 font-medium hover:underline"
-          >
-            Log In
-          </a>
-        </p>
       </motion.div>
     </div>
   );
-}
+};
+
+export default Signup;

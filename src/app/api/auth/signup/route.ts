@@ -6,9 +6,9 @@ import User from "@/models/user";
 export async function POST(req: Request) {
   try {
     await dbConnect();
-    const { username, email, password } = await req.json();
+    const { name, email, password } = await req.json();
 
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return NextResponse.json({ message: "All fields are required" }, { status: 400 });
     }
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      username,
+      name,
       email,
       password: hashedPassword,
     });
