@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Post {
   id: string;
@@ -56,13 +57,17 @@ export default function Home() {
           Harness the power of AI to generate summaries, titles, and SEO
           suggestions for your blog posts. Say goodbye to writer’s block!
         </motion.p>
-        <motion.button
-          className="mt-8 px-8 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Get Started
-        </motion.button>
+
+        {/* Get Started -> Goes to Create Blog */}
+        <Link href="/createArticle">
+          <motion.button
+            className="mt-8 px-8 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Get Started
+          </motion.button>
+        </Link>
       </section>
 
       {/* Featured Posts */}
@@ -79,24 +84,39 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2, duration: 0.6 }}
             >
-              {post.coverImage && (
-                <img
-                  src={post.coverImage}
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition mb-2">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{post.summary}</p>
-                <span className="text-indigo-600 font-semibold hover:underline">
-                  Read More →
-                </span>
-              </div>
+              <Link href={`/blogs/${post.slug}`}>
+                {post.coverImage && (
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition mb-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{post.summary}</p>
+                  <span className="text-indigo-600 font-semibold hover:underline">
+                    Read More →
+                  </span>
+                </div>
+              </Link>
             </motion.div>
           ))}
+        </div>
+
+        {/* View All Blogs Button */}
+        <div className="text-center mt-12">
+          <Link href="/blog">
+            <motion.button
+              className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              View All Blogs
+            </motion.button>
+          </Link>
         </div>
       </section>
     </div>
