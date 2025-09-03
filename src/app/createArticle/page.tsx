@@ -9,10 +9,41 @@ export default function CreateBlogPage() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
 
+  const [loading, setLoading] = useState(false);
+
+  // ✅ AI Blog Generator
+  const generateWithAI = async () => {
+    if (!title) {
+      alert("Please enter a blog title first!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+      });
+
+      const data = await res.json();
+      if (data.content) {
+        setContent(data.content);
+      } else {
+        alert("Failed to generate blog content.");
+      }
+    } catch (error) {
+      console.error("AI Error:", error);
+      alert("Error generating blog content.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // For now just log the data
+    // Later -> Send this data to backend API
     console.log({
       title,
       summary,
@@ -67,9 +98,22 @@ export default function CreateBlogPage() {
 
           {/* Content */}
           <div>
-            <label className="block font-semibold text-gray-800 mb-2">
-              Content
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="font-semibold text-gray-800">
+                Content
+              </label>
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={generateWithAI}
+                disabled={loading}
+                className="bg-green-600 text-white px-4 py-1 rounded-lg shadow hover:bg-green-700 transition"
+              >
+                {loading ? "✨ Generating..." : "✨ Generate with AI"}
+              </motion.button>
+            </div>
+
             <textarea
               placeholder="Write your blog content here..."
               value={content}
