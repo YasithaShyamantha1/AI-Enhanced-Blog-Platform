@@ -43,13 +43,7 @@ export default function CreateBlogPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Later -> Send this data to backend API
-    console.log({
-      title,
-      summary,
-      content,
-      image,
-    });
+    console.log({ title, summary, content, image });
 
     alert("Blog post submitted! (Hook this to API later)");
   };
@@ -61,14 +55,14 @@ export default function CreateBlogPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+        <h1 className="text-3xl font-bold text-black mb-6 text-center">
           ✍️ Create a New Blog Post
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 text-black">
           {/* Title */}
           <div>
-            <label className="block font-semibold text-gray-800 mb-2">
+            <label className="block font-semibold text-black mb-2">
               Blog Title
             </label>
             <input
@@ -76,14 +70,14 @@ export default function CreateBlogPage() {
               placeholder="Enter blog title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               required
             />
           </div>
 
           {/* Summary */}
           <div>
-            <label className="block font-semibold text-gray-800 mb-2">
+            <label className="block font-semibold text-black mb-2">
               Summary
             </label>
             <input
@@ -91,7 +85,7 @@ export default function CreateBlogPage() {
               placeholder="Short summary of your blog"
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               required
             />
           </div>
@@ -99,9 +93,7 @@ export default function CreateBlogPage() {
           {/* Content */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="font-semibold text-gray-800">
-                Content
-              </label>
+              <label className="font-semibold text-black">Content</label>
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.05 }}
@@ -119,14 +111,14 @@ export default function CreateBlogPage() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={8}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               required
             />
           </div>
 
           {/* Image Upload */}
           <div>
-            <label className="block font-semibold text-gray-800 mb-2">
+            <label className="block font-semibold text-black mb-2">
               Upload Image
             </label>
             <input
@@ -135,7 +127,7 @@ export default function CreateBlogPage() {
               onChange={(e) =>
                 setImage(e.target.files ? e.target.files[0] : null)
               }
-              className="w-full p-2 border border-gray-300 rounded-xl"
+              className="w-full p-2 border border-gray-300 rounded-xl text-black"
             />
           </div>
 
