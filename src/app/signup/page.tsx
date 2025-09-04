@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSignUp } from "@clerk/nextjs";
 
 const Signup = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,22 +22,37 @@ const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!isLoaded) return; // Clerk not ready yet
+
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      setLoading(true);
+
+      // ✅ Create Clerk user
+      const result = await signUp.create({
+        emailAddress: formData.email,
+        password: formData.password,
       });
 
-      const data = await res.json();
-      if (res.ok) {
-        alert("Account created successfully!");
-      } else {
-        alert(data.message || "Signup failed");
-      }
-    } catch (err) {
+      // ✅ Optional: add full name as metadata
+      await signUp.update({
+        unsafeMetadata: {
+          fullName: formData.name,
+        },
+      });
+
+      // ✅ Prepare email verification
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      alert("Verification email sent! Please check your inbox.");
+
+      // Optionally: auto-activate session after verification
+      // await setActive({ session: result.createdSessionId });
+
+    } catch (err: any) {
       console.error(err);
-      alert("Something went wrong");
+      alert(err.errors?.[0]?.message || "Something went wrong with Clerk signup");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,9 +122,10 @@ const Signup = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
+            disabled={loading}
             className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold shadow-md hover:bg-indigo-700 transition"
           >
-            Sign Up
+            {loading ? "Creating account..." : "Sign Up"}
           </motion.button>
         </form>
       </motion.div>
