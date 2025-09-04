@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Header from "./components/header"; // <-- Import your header component
 
 interface Post {
   id: string;
@@ -38,6 +39,9 @@ const dummyPosts: Post[] = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <Header />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-28 px-6 text-center">
         <motion.h1
@@ -58,7 +62,6 @@ export default function Home() {
           suggestions for your blog posts. Say goodbye to writer’s block!
         </motion.p>
 
-        {/* Get Started -> Goes to Create Blog */}
         <Link href="/createArticle">
           <motion.button
             className="mt-8 px-8 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition"
@@ -106,7 +109,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* View All Blogs Button */}
         <div className="text-center mt-12">
           <Link href="/blog">
             <motion.button
