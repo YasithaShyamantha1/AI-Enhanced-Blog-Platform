@@ -2,41 +2,26 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Header from "./components/header"; // <-- Import your header component
+import Header from "./components/header";
+import { useEffect, useState } from "react";
 
 interface Post {
-  id: string;
+  _id: string;
   title: string;
   summary: string;
-  slug: string;
+  slug?: string; // you can generate slug later
   coverImage?: string;
 }
 
-const dummyPosts: Post[] = [
-  {
-    id: "1",
-    title: "How AI is Changing Blogging Forever",
-    summary: "Discover how AI-powered tools can help you write better and faster.",
-    slug: "ai-changing-blogging",
-    coverImage: "/images/post1.png",
-  },
-  {
-    id: "2",
-    title: "5 Tips for Writing Viral Blog Posts",
-    summary: "Learn the secrets behind creating blog content that spreads like wildfire.",
-    slug: "viral-blog-tips",
-    coverImage: "/images/post2.jpg",
-  },
-  {
-    id: "3",
-    title: "AI-Powered SEO: The Future of Blog Optimization",
-    summary: "How AI can suggest the perfect keywords and structure for your posts.",
-    slug: "ai-seo-future",
-    coverImage: "/images/post3.png",
-  },
-];
-
 export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -78,36 +63,41 @@ export default function Home() {
         <h2 className="text-3xl font-extrabold text-gray-900 mb-10 text-center">
           Featured Posts
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {dummyPosts.map((post, index) => (
-            <motion.div
-              key={post.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition cursor-pointer"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-            >
-              <Link href={`/blogs/${post.slug}`}>
-                {post.coverImage && (
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition mb-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{post.summary}</p>
-                  <span className="text-indigo-600 font-semibold hover:underline">
-                    Read More →
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+
+        {posts.length === 0 ? (
+          <p className="text-center text-gray-500">No posts available yet.</p>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8">
+            {posts.map((post, index) => (
+              <motion.div
+                key={post._id}
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition cursor-pointer"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+              >
+                <Link href={`/blogs/${post.slug || post._id}`}>
+                  {post.coverImage && (
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className="w-full h-48 object-cover"
+                    />
+                  )}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition mb-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4">{post.summary}</p>
+                    <span className="text-indigo-600 font-semibold hover:underline">
+                      Read More →
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         <div className="text-center mt-12">
           <Link href="/blog">

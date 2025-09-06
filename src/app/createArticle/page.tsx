@@ -35,11 +35,32 @@ export default function CreateBlogPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ title, summary, content, image });
-    alert("✅ Blog post submitted! (Hook this to API later)");
+  
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, summary, content, image }),
+      });
+  
+      if (res.ok) {
+        alert("✅ Blog saved successfully!");
+        setTitle("");
+        setSummary("");
+        setContent("");
+        setImage(null);
+      } else {
+        const err = await res.json();
+        alert(err.message || "Failed to save blog");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong.");
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-10">
